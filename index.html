@@ -3,430 +3,147 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تقرير نهاية اليوم</title>
+<title>تقرير نهاية اليوم — فرع المدينة</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #F7F8FA;
-    --card: #FFFFFF;
-    --primary: #1B3A6B;
-    --accent: #2E75B6;
-    --accent-light: #EBF3FB;
-    --green: #217346;
-    --green-light: #E8F5EE;
-    --red: #C00000;
-    --border: #E2E8F0;
-    --text: #1A202C;
-    --muted: #718096;
-    --radius: 14px;
-    --shadow: 0 2px 16px rgba(27,58,107,0.08);
+    --bg: #F7F8FA; --card: #FFFFFF; --primary: #1B3A6B; --accent: #2E75B6;
+    --accent-light: #EBF3FB; --green: #217346; --green-light: #E8F5EE;
+    --red: #C00000; --border: #E2E8F0; --text: #1A202C; --muted: #718096;
+    --radius: 14px; --shadow: 0 2px 16px rgba(27,58,107,0.08);
   }
-
-  body {
-    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 0 0 60px;
-  }
-
-  /* Header */
-  .header {
-    background: var(--primary);
-    color: white;
-    padding: 20px 20px 28px;
-    text-align: center;
-    position: relative;
-  }
-  .header h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
+  body { font-family: 'Segoe UI', Tahoma, Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 0 0 60px; }
+  .header { background: var(--primary); color: white; padding: 20px 20px 28px; text-align: center; }
+  .header h1 { font-size: 20px; font-weight: 700; }
   .header p { font-size: 13px; opacity: 0.7; margin-top: 4px; }
-  .date-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.15);
-    border-radius: 20px;
-    padding: 4px 14px;
-    font-size: 12px;
-    margin-top: 8px;
-  }
-
-  /* Steps progress */
-  .steps-bar {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    padding: 14px 20px 0;
-    background: var(--primary);
-  }
-  .step-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.3);
-    transition: all 0.3s;
-  }
+  .date-badge { display: inline-block; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 14px; font-size: 12px; margin-top: 8px; }
+  .steps-bar { display: flex; justify-content: center; gap: 6px; padding: 14px 20px 0; background: var(--primary); }
+  .step-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: all 0.3s; }
   .step-dot.active { background: white; width: 24px; border-radius: 4px; }
   .step-dot.done { background: rgba(255,255,255,0.6); }
-
-  /* Content */
   .content { padding: 16px; max-width: 480px; margin: 0 auto; }
-
-  /* Step card */
   .step { display: none; }
   .step.active { display: block; }
-
-  .card {
-    background: var(--card);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 20px;
-    margin-bottom: 14px;
-  }
-
-  .card-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--primary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 16px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--accent-light);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-title .icon {
-    width: 28px; height: 28px;
-    background: var(--accent-light);
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-  }
-
-  /* Field */
+  .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; margin-bottom: 14px; }
+  .card-title { font-size: 13px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 2px solid var(--accent-light); display: flex; align-items: center; gap: 8px; }
+  .card-title .icon { width: 28px; height: 28px; background: var(--accent-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
   .field { margin-bottom: 14px; }
-  .field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 6px;
-  }
-  .field input, .field select {
-    width: 100%;
-    padding: 12px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-size: 16px;
-    font-family: inherit;
-    color: var(--text);
-    background: white;
-    transition: border-color 0.2s;
-    -webkit-appearance: none;
-  }
-  .field input:focus, .field select:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(46,117,182,0.1);
-  }
+  .field label { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 6px; }
+  .field input, .field select { width: 100%; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 16px; font-family: inherit; color: var(--text); background: white; transition: border-color 0.2s; -webkit-appearance: none; }
+  .field input:focus, .field select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(46,117,182,0.1); }
   .field input[type="number"] { direction: ltr; text-align: right; }
-
-  /* SAR label */
   .input-wrap { position: relative; }
-  .input-wrap .sar {
-    position: absolute;
-    left: 14px; top: 50%; transform: translateY(-50%);
-    font-size: 13px; color: var(--muted); font-weight: 600;
-    pointer-events: none;
-  }
+  .input-wrap .sar { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 13px; color: var(--muted); font-weight: 600; pointer-events: none; }
   .input-wrap input { padding-left: 40px; }
-
-  /* Multi-entry */
+  .deposit-note { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
   .entries { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
-  .entry-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr auto;
-    gap: 8px;
-    align-items: center;
-    background: var(--bg);
-    padding: 10px;
-    border-radius: 10px;
-    border: 1.5px solid var(--border);
-  }
-  .entry-row input {
-    padding: 10px 12px;
-    border: 1.5px solid var(--border);
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
-    width: 100%;
-  }
-  .entry-row input:focus { outline: none; border-color: var(--accent); }
+  .entry-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; align-items: center; background: var(--bg); padding: 10px; border-radius: 10px; border: 1.5px solid var(--border); }
+  .entry-row input, .entry-row select { padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-family: inherit; width: 100%; background: white; -webkit-appearance: none; }
+  .entry-row input:focus, .entry-row select:focus { outline: none; border-color: var(--accent); }
   .entry-row input[type="number"] { direction: ltr; text-align: right; }
-  .btn-remove {
-    background: #FEE2E2; color: var(--red);
-    border: none; border-radius: 8px;
-    width: 34px; height: 34px;
-    font-size: 18px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .btn-add {
-    width: 100%;
-    padding: 11px;
-    background: var(--accent-light);
-    color: var(--accent);
-    border: 1.5px dashed var(--accent);
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
+  .btn-remove { background: #FEE2E2; color: var(--red); border: none; border-radius: 8px; width: 34px; height: 34px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .btn-add { width: 100%; padding: 11px; background: var(--accent-light); color: var(--accent); border: 1.5px dashed var(--accent); border-radius: 10px; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer; transition: all 0.2s; }
   .btn-add:hover { background: #D6E8F7; }
-
-  /* Summary box */
-  .summary-box {
-    background: var(--primary);
-    color: white;
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 14px;
-  }
+  .summary-box { background: var(--primary); color: white; border-radius: var(--radius); padding: 20px; margin-bottom: 14px; }
   .summary-box h3 { font-size: 13px; opacity: 0.7; margin-bottom: 16px; }
-  .summary-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    font-size: 14px;
-  }
+  .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 14px; }
   .summary-row:last-child { border-bottom: none; }
   .summary-row .label { opacity: 0.8; }
   .summary-row .val { font-weight: 600; font-family: 'Courier New', monospace; direction: ltr; }
-  .summary-row.net {
-    margin-top: 8px;
-    padding-top: 14px;
-    border-top: 2px solid rgba(255,255,255,0.3);
-    font-size: 16px;
-  }
+  .summary-row.net { margin-top: 8px; padding-top: 14px; border-top: 2px solid rgba(255,255,255,0.3); font-size: 16px; }
   .summary-row.net .val { font-size: 20px; }
+  .summary-row.deposit-row { opacity: 0.6; font-size: 13px; }
   .net-positive { color: #6EE7A0; }
   .net-negative { color: #FCA5A5; }
-
-  /* Buttons */
-  .btn-next {
-    width: 100%;
-    padding: 16px;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 16px;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(46,117,182,0.3);
-  }
+  .btn-next { width: 100%; padding: 16px; background: var(--accent); color: white; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(46,117,182,0.3); }
   .btn-next:hover { background: #1B5E9E; transform: translateY(-1px); }
-  .btn-next:active { transform: translateY(0); }
-  .btn-next:disabled { background: #CBD5E0; box-shadow: none; cursor: not-allowed; transform: none; }
-
-  .btn-back {
-    width: 100%;
-    padding: 14px;
-    background: transparent;
-    color: var(--muted);
-    border: 1.5px solid var(--border);
-    border-radius: var(--radius);
-    font-size: 15px;
-    font-family: inherit;
-    cursor: pointer;
-    margin-top: 8px;
-  }
+  .btn-back { width: 100%; padding: 14px; background: transparent; color: var(--muted); border: 1.5px solid var(--border); border-radius: var(--radius); font-size: 15px; font-family: inherit; cursor: pointer; margin-top: 8px; }
   .btn-back:hover { background: var(--bg); }
-
-  .btn-submit {
-    width: 100%;
-    padding: 16px;
-    background: var(--green);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 16px;
-    font-weight: 700;
-    font-family: inherit;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(33,115,70,0.3);
-    transition: all 0.2s;
-  }
+  .btn-submit { width: 100%; padding: 16px; background: var(--green); color: white; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 700; font-family: inherit; cursor: pointer; box-shadow: 0 4px 12px rgba(33,115,70,0.3); transition: all 0.2s; }
   .btn-submit:hover { background: #185C37; }
   .btn-submit:disabled { background: #CBD5E0; box-shadow: none; cursor: not-allowed; }
-
-  /* Success */
-  .success-screen {
-    text-align: center;
-    padding: 40px 20px;
-    display: none;
-  }
+  .success-screen { text-align: center; padding: 40px 20px; display: none; }
   .success-screen.show { display: block; }
-  .success-icon {
-    width: 80px; height: 80px;
-    background: var(--green-light);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 36px;
-    margin: 0 auto 20px;
-  }
+  .success-icon { width: 80px; height: 80px; background: var(--green-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 20px; }
   .success-screen h2 { font-size: 22px; color: var(--green); margin-bottom: 8px; }
   .success-screen p { color: var(--muted); font-size: 14px; margin-bottom: 30px; }
-  .btn-new {
-    padding: 14px 32px;
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-size: 15px;
-    font-weight: 600;
-    font-family: inherit;
-    cursor: pointer;
-  }
-
-  /* Chip select */
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    padding: 8px 16px;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: white;
-    font-family: inherit;
-    color: var(--text);
-  }
-  .chip.selected {
-    background: var(--accent);
-    color: white;
-    border-color: var(--accent);
-  }
-
-  .loading { opacity: 0.6; }
-  .spinner {
-    display: inline-block;
-    width: 18px; height: 18px;
-    border: 2px solid rgba(255,255,255,0.4);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    vertical-align: middle;
-    margin-left: 8px;
-  }
+  .btn-new { padding: 14px 32px; background: var(--primary); color: white; border: none; border-radius: var(--radius); font-size: 15px; font-weight: 600; font-family: inherit; cursor: pointer; }
+  .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-left: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  .error-msg {
-    background: #FEE2E2;
-    color: var(--red);
-    padding: 12px 16px;
-    border-radius: 10px;
-    font-size: 13px;
-    margin-top: 10px;
-    display: none;
-  }
+  .error-msg { background: #FEE2E2; color: var(--red); padding: 12px 16px; border-radius: 10px; font-size: 13px; margin-top: 10px; display: none; }
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
 </style>
 </head>
 <body>
 
 <div class="header">
   <h1>تقرير نهاية اليوم</h1>
-  <p>مصنع المجالس العربية للصناعة</p>
+  <p>فرع المدينة — مصنع المجالس العربية للصناعة</p>
   <div class="date-badge" id="dateDisplay"></div>
 </div>
 <div class="steps-bar">
   <div class="step-dot active" id="dot0"></div>
   <div class="step-dot" id="dot1"></div>
   <div class="step-dot" id="dot2"></div>
-  <div class="step-dot" id="dot3"></div>
-  <div class="step-dot" id="dot4"></div>
 </div>
 
 <div class="content">
 
-  <!-- Step 0: Branch & Info -->
+  <!-- Step 0: Sales -->
   <div class="step active" id="step0">
     <div class="card">
-      <div class="card-title"><span class="icon">🏪</span> معلومات أساسية</div>
-      <div class="field">
-        <label>الفرع</label>
-        <div class="chips" id="branchChips">
-          <button class="chip selected" onclick="selectChip(this,'branch','فرع المدينة')">فرع المدينة</button>
-          <button class="chip" onclick="selectChip(this,'branch','فرع 2')" style="opacity:0.4;pointer-events:none">فرع 2 (قريباً)</button>
-        </div>
-      </div>
-      <div class="field">
-        <label>اسم المسؤول</label>
-        <input type="text" id="managerName" placeholder="اكتب اسمك" oninput="validate0()">
-      </div>
-    </div>
-    <button class="btn-next" id="next0" onclick="goStep(1)" disabled>التالي ←</button>
-  </div>
-
-  <!-- Step 1: Sales -->
-  <div class="step" id="step1">
-    <div class="card">
       <div class="card-title"><span class="icon">💰</span> المبيعات</div>
+
       <div class="field">
-        <label>إجمالي مبيعات الكاش (خارج النظام)</label>
+        <label>مبيعات كاش</label>
         <div class="input-wrap">
-          <input type="number" id="salesCash" placeholder="0" min="0" oninput="calcNet()" inputmode="decimal">
+          <input type="number" id="salesCash" placeholder="0" min="0" inputmode="decimal">
           <span class="sar">﷼</span>
         </div>
       </div>
+
       <div class="field">
         <label>مبيعات الشبكة</label>
         <div class="input-wrap">
-          <input type="number" id="salesNetwork" placeholder="0" min="0" oninput="calcNet()" inputmode="decimal">
+          <input type="number" id="salesNetwork" placeholder="0" min="0" inputmode="decimal">
           <span class="sar">﷼</span>
         </div>
       </div>
+
       <div class="field">
         <label>التحويلات</label>
         <div class="entries" id="transferEntries"></div>
         <button class="btn-add" onclick="addTransfer()">＋ إضافة تحويل</button>
       </div>
+
+      <div class="divider"></div>
+
+      <div class="field">
+        <label>إيداع نقدي في البنك</label>
+        <div class="input-wrap">
+          <input type="number" id="cashDeposit" placeholder="0" min="0" inputmode="decimal">
+          <span class="sar">﷼</span>
+        </div>
+        <p class="deposit-note">* لا يؤثر على الصافي — للتوثيق فقط</p>
+      </div>
+
     </div>
-    <button class="btn-next" onclick="goStep(2)">التالي ←</button>
-    <button class="btn-back" onclick="goStep(0)">→ رجوع</button>
+    <button class="btn-next" onclick="goStep(1)">التالي ←</button>
   </div>
 
-  <!-- Step 2: Expenses -->
-  <div class="step" id="step2">
+  <!-- Step 1: Expenses -->
+  <div class="step" id="step1">
     <div class="card">
       <div class="card-title"><span class="icon">💸</span> المصاريف</div>
       <div class="entries" id="expenseEntries"></div>
       <button class="btn-add" onclick="addExpense()">＋ إضافة مصروف</button>
     </div>
-    <button class="btn-next" onclick="goStep(3)">التالي ←</button>
-    <button class="btn-back" onclick="goStep(1)">→ رجوع</button>
+    <button class="btn-next" onclick="goStep(2)">التالي ←</button>
+    <button class="btn-back" onclick="goStep(0)">→ رجوع</button>
   </div>
 
-  <!-- Step 3: Purchases -->
-  <div class="step" id="step3">
-    <div class="card">
-      <div class="card-title"><span class="icon">🛒</span> المشتريات</div>
-      <div class="entries" id="purchaseEntries"></div>
-      <button class="btn-add" onclick="addPurchase()">＋ إضافة مشتريات</button>
-    </div>
-    <button class="btn-next" onclick="goStep(4)">التالي ←</button>
-    <button class="btn-back" onclick="goStep(2)">→ رجوع</button>
-  </div>
-
-  <!-- Step 4: Summary & Submit -->
-  <div class="step" id="step4">
+  <!-- Step 2: Summary & Submit -->
+  <div class="step" id="step2">
     <div class="summary-box" id="summaryBox"></div>
     <div class="field">
       <label style="color:var(--muted);font-size:13px;font-weight:600">ملاحظات (اختياري)</label>
@@ -434,7 +151,7 @@
     </div>
     <div class="error-msg" id="errorMsg">حدث خطأ في الإرسال، تحقق من الاتصال وحاول مجدداً.</div>
     <button class="btn-submit" id="submitBtn" onclick="submitReport()">✓ إرسال التقرير</button>
-    <button class="btn-back" onclick="goStep(3)">→ رجوع</button>
+    <button class="btn-back" onclick="goStep(1)">→ رجوع</button>
   </div>
 
   <!-- Success -->
@@ -448,22 +165,20 @@
 </div>
 
 <script>
-// ── Config ────────────────────────────────────────────────────────────────────
-// ضع هنا رابط Google Apps Script بعد النشر
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwxACTiuqn-zyceFdDnUGb5LUQSP82gSvfs3uuokJGw8KS4KejvqBlf9gUychg1y3ZA/exec";
+// ═══════════════════════════════════════
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyCU9vHA9i6O5wkFL7djs44JCRr_sWpNeLz9f3k7vU_Fpr0hbYXjX7UgTwksrJgXsLb/exec";
+const BRANCH_NAME = "فرع المدينة";
+// ═══════════════════════════════════════
 
-// ── State ─────────────────────────────────────────────────────────────────────
+const BANKS = ["بنك الراجحي", "بنك الأهلي "];
+const EXPENSE_CATS = ["صيانة سيارات","مياه","ملتون وبلويستر","نقل بضائع","شحن جوال"," وقود","متنوعة"];
+
 let currentStep = 0;
-let data = { branch: "فرع المدينة" };
-
-// ── Date ──────────────────────────────────────────────────────────────────────
 const today = new Date();
-const dateStr = today.toLocaleDateString('ar-SA-u-nu-latn', {
+document.getElementById('dateDisplay').textContent = today.toLocaleDateString('ar-SA-u-nu-latn', {
   weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
 });
-document.getElementById('dateDisplay').textContent = dateStr;
 
-// ── Steps ─────────────────────────────────────────────────────────────────────
 function goStep(n) {
   document.getElementById('step' + currentStep).classList.remove('active');
   document.querySelectorAll('.step-dot').forEach((d, i) => {
@@ -471,99 +186,55 @@ function goStep(n) {
   });
   currentStep = n;
   document.getElementById('step' + n).classList.add('active');
-  if (n === 4) buildSummary();
+  if (n === 2) buildSummary();
   window.scrollTo(0, 0);
 }
 
-// ── Chip select ───────────────────────────────────────────────────────────────
-function selectChip(el, key, val) {
-  el.closest('.chips').querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  data[key] = val;
-}
-
-// ── Validate step 0 ───────────────────────────────────────────────────────────
-function validate0() {
-  const ok = document.getElementById('managerName').value.trim().length > 1;
-  document.getElementById('next0').disabled = !ok;
-}
-
-// ── Transfer entries ──────────────────────────────────────────────────────────
 let transferCount = 0;
 function addTransfer() {
   transferCount++;
   const id = 'tr' + transferCount;
   const div = document.createElement('div');
-  div.className = 'entry-row';
-  div.id = id;
+  div.className = 'entry-row'; div.id = id;
+  const opts = BANKS.map(b => `<option>${b}</option>`).join('');
   div.innerHTML = `
-    <input type="text" placeholder="اسم المحول / البنك" oninput="calcNet()">
-    <input type="number" placeholder="المبلغ" min="0" oninput="calcNet()" inputmode="decimal">
-    <button class="btn-remove" onclick="removeEntry('${id}');calcNet()">×</button>
-  `;
+    <select>${opts}</select>
+    <input type="number" placeholder="المبلغ" min="0" inputmode="decimal">
+    <button class="btn-remove" onclick="removeEntry('${id}')">×</button>`;
   document.getElementById('transferEntries').appendChild(div);
 }
 
-// ── Expense entries ───────────────────────────────────────────────────────────
-const EXPENSE_CATS = ["إيجار","كهرباء ومياه","رواتب","مواصلات","صيانة","مصاريف إدارية","متنوعة"];
 let expenseCount = 0;
 function addExpense() {
   expenseCount++;
   const id = 'exp' + expenseCount;
   const div = document.createElement('div');
-  div.className = 'entry-row';
-  div.id = id;
+  div.className = 'entry-row'; div.id = id;
   const opts = EXPENSE_CATS.map(c => `<option>${c}</option>`).join('');
   div.innerHTML = `
-    <select style="padding:10px 8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;background:white;width:100%">${opts}</select>
-    <input type="number" placeholder="المبلغ" min="0" oninput="calcNet()" inputmode="decimal">
-    <button class="btn-remove" onclick="removeEntry('${id}');calcNet()">×</button>
-  `;
+    <select>${opts}</select>
+    <input type="number" placeholder="المبلغ" min="0" inputmode="decimal">
+    <button class="btn-remove" onclick="removeEntry('${id}')">×</button>`;
   document.getElementById('expenseEntries').appendChild(div);
-  calcNet();
-}
-
-// ── Purchase entries ──────────────────────────────────────────────────────────
-let purchaseCount = 0;
-function addPurchase() {
-  purchaseCount++;
-  const id = 'pur' + purchaseCount;
-  const div = document.createElement('div');
-  div.className = 'entry-row';
-  div.id = id;
-  div.innerHTML = `
-    <input type="text" placeholder="اسم المورد / الصنف">
-    <input type="number" placeholder="المبلغ" min="0" oninput="calcNet()" inputmode="decimal">
-    <button class="btn-remove" onclick="removeEntry('${id}');calcNet()">×</button>
-  `;
-  document.getElementById('purchaseEntries').appendChild(div);
-  calcNet();
 }
 
 function removeEntry(id) { document.getElementById(id)?.remove(); }
 
-// ── Calc ──────────────────────────────────────────────────────────────────────
-function getNum(id) { return parseFloat(document.getElementById(id)?.value) || 0; }
-
-function calcNet() {
-  // called from inputs — just keeps data fresh, summary built on step 4
-}
-
 function collectData() {
-  const cash = getNum('salesCash');
-  const network = getNum('salesNetwork');
+  const cash = parseFloat(document.getElementById('salesCash').value) || 0;
+  const network = parseFloat(document.getElementById('salesNetwork').value) || 0;
+  const deposit = parseFloat(document.getElementById('cashDeposit').value) || 0;
 
-  // Transfers
   const transfers = [];
   document.querySelectorAll('#transferEntries .entry-row').forEach(row => {
-    const inputs = row.querySelectorAll('input');
-    const name = inputs[0].value.trim() || 'تحويل';
-    const amt = parseFloat(inputs[1].value) || 0;
+    const sel = row.querySelector('select');
+    const inp = row.querySelector('input[type="number"]');
+    const name = sel ? sel.value : 'تحويل';
+    const amt = parseFloat(inp?.value) || 0;
     if (amt > 0) transfers.push({ name, amt });
   });
   const transferTotal = transfers.reduce((s, t) => s + t.amt, 0);
 
-  // Expenses
   const expenses = [];
   document.querySelectorAll('#expenseEntries .entry-row').forEach(row => {
     const sel = row.querySelector('select');
@@ -574,21 +245,10 @@ function collectData() {
   });
   const expenseTotal = expenses.reduce((s, e) => s + e.amt, 0);
 
-  // Purchases
-  const purchases = [];
-  document.querySelectorAll('#purchaseEntries .entry-row').forEach(row => {
-    const inputs = row.querySelectorAll('input');
-    const name = inputs[0].value.trim() || 'مشتريات';
-    const amt = parseFloat(inputs[1].value) || 0;
-    if (amt > 0) purchases.push({ name, amt });
-  });
-  const purchaseTotal = purchases.reduce((s, p) => s + p.amt, 0);
-
   const totalSales = cash + network + transferTotal;
-  const net = totalSales - expenseTotal - purchaseTotal;
+  const cashRemaining = cash - expenseTotal;
 
-  return { cash, network, transfers, transferTotal, expenses, expenseTotal,
-           purchases, purchaseTotal, totalSales, net };
+  return { cash, network, deposit, transfers, transferTotal, expenses, expenseTotal, totalSales, cashRemaining };
 }
 
 function fmt(n) {
@@ -597,11 +257,9 @@ function fmt(n) {
 
 function buildSummary() {
   const d = collectData();
-  const netClass = d.net >= 0 ? 'net-positive' : 'net-negative';
-  const netSign = d.net >= 0 ? '+' : '';
+  const cashClass = d.cashRemaining >= 0 ? 'net-positive' : 'net-negative';
 
-  let rows = `
-    <h3>ملخص تقرير اليوم</h3>
+  let rows = `<h3>ملخص تقرير اليوم — ${BRANCH_NAME}</h3>
     <div class="summary-row"><span class="label">مبيعات كاش</span><span class="val">${fmt(d.cash)}</span></div>
     <div class="summary-row"><span class="label">مبيعات شبكة</span><span class="val">${fmt(d.network)}</span></div>`;
 
@@ -609,7 +267,7 @@ function buildSummary() {
     rows += `<div class="summary-row"><span class="label">تحويل — ${t.name}</span><span class="val">${fmt(t.amt)}</span></div>`;
   });
 
-  rows += `<div class="summary-row" style="font-weight:700"><span class="label">إجمالي المبيعات</span><span class="val">${fmt(d.totalSales)}</span></div>`;
+  rows += `<div class="summary-row" style="font-weight:700"><span class="label">إجمالي الدخل</span><span class="val">${fmt(d.totalSales)}</span></div>`;
 
   if (d.expenses.length > 0) {
     rows += `<div class="summary-row" style="margin-top:6px"><span class="label" style="opacity:0.5;font-size:12px">── المصاريف ──</span></div>`;
@@ -618,32 +276,26 @@ function buildSummary() {
     });
   }
 
-  if (d.purchases.length > 0) {
-    rows += `<div class="summary-row" style="margin-top:6px"><span class="label" style="opacity:0.5;font-size:12px">── المشتريات ──</span></div>`;
-    d.purchases.forEach(p => {
-      rows += `<div class="summary-row"><span class="label">${p.name}</span><span class="val">- ${fmt(p.amt)}</span></div>`;
-    });
-  }
+  rows += `<div class="summary-row net"><span class="label">💵 الكاش المتبقي</span><span class="val ${cashClass}">${fmt(d.cashRemaining)}</span></div>`;
 
-  rows += `<div class="summary-row net"><span class="label">الصافي</span><span class="val ${netClass}">${netSign}${fmt(d.net)}</span></div>`;
+  if (d.deposit > 0) {
+    rows += `<div class="summary-row deposit-row"><span class="label">🏦 إيداع نقدي في البنك</span><span class="val">${fmt(d.deposit)}</span></div>`;
+  }
 
   document.getElementById('summaryBox').innerHTML = rows;
 }
 
-// ── Submit ────────────────────────────────────────────────────────────────────
 async function submitReport() {
   const btn = document.getElementById('submitBtn');
   const errMsg = document.getElementById('errorMsg');
   errMsg.style.display = 'none';
-
   const d = collectData();
-  const manager = document.getElementById('managerName').value.trim();
   const notes = document.getElementById('notes').value.trim();
 
   const payload = {
     date: today.toLocaleDateString('en-GB'),
-    branch: data.branch,
-    manager,
+    branch: BRANCH_NAME,
+    manager: BRANCH_NAME,
     salesCash: d.cash,
     salesNetwork: d.network,
     transfers: d.transfers.map(t => `${t.name}: ${t.amt}`).join(' | '),
@@ -651,26 +303,22 @@ async function submitReport() {
     totalSales: d.totalSales,
     expenses: d.expenses.map(e => `${e.cat}: ${e.amt}`).join(' | '),
     expenseTotal: d.expenseTotal,
-    purchases: d.purchases.map(p => `${p.name}: ${p.amt}`).join(' | '),
-    purchaseTotal: d.purchaseTotal,
-    net: d.net,
+    cashDeposit: d.deposit,
+    cashRemaining: d.cashRemaining,
     notes
   };
 
   btn.disabled = true;
   btn.innerHTML = 'جاري الإرسال <span class="spinner"></span>';
 
-  // If URL not set yet, simulate success for testing
   if (APPS_SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE") {
     await new Promise(r => setTimeout(r, 1200));
-    showSuccess();
-    return;
+    showSuccess(); return;
   }
 
   try {
     await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
+      method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
@@ -683,21 +331,14 @@ async function submitReport() {
 }
 
 function showSuccess() {
-  document.getElementById('step4').classList.remove('active');
+  document.getElementById('step2').classList.remove('active');
   document.getElementById('successScreen').classList.add('show');
   document.querySelectorAll('.step-dot').forEach(d => d.className = 'step-dot done');
 }
 
-function resetForm() {
-  location.reload();
-}
+function resetForm() { location.reload(); }
 
-// Init: add one entry for each to guide the user
-window.onload = () => {
-  addTransfer();
-  addExpense();
-  addPurchase();
-};
+window.onload = () => { addTransfer(); addExpense(); };
 </script>
 </body>
 </html>
